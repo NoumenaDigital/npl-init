@@ -6,22 +6,8 @@ services:
     environment:
       POSTGRES_PASSWORD: welcome123
 
-      # other environment variables to be removed
-      POSTGRES_USER: postgres
-      POSTGRES_DB: engine
-      ENGINE_DB_USER: npl-integrations
-      ENGINE_DB_PASSWORD: welcome123
-      HISTORY_DB_USER: history
-      HISTORY_DB_PASSWORD: secret
-      HISTORY_DB_SCHEMA: history
-      READ_MODEL_DB_USER: postgraphile
-      READ_MODEL_DB_PASSWORD: secret
-
-    volumes:
-      - ./db_init/db_init.sh:/docker-entrypoint-initdb.d/db_init.sh
-
   engine:
-    image: ghcr.io/noumenadigital/packages/engine:14771705132-rc
+    image: ghcr.io/noumenadigital/packages/engine:14775705332-rc
     ports:
       - "11000:11000"
       - "12000:12000"
@@ -30,16 +16,5 @@ services:
     environment:
       ENGINE_DB_PASSWORD: welcome123
       ENGINE_DEV_MODE: true
+      ENGINE_ALLOWED_ISSUERS: http://localhost:11000
       ENGINE_MANAGEMENT_HOST: 0.0.0.0
-
-      # to be removed
-      ENGINE_ALLOWED_ISSUERS: http://keycloak:11000/realms/noumena
-      ENGINE_DB_URL: "jdbc:postgresql://postgres:5432/engine"
-      ENGINE_DB_USER: npl-integrations
-      ENGINE_DB_HISTORY_USER: history
-      ENGINE_DB_HISTORY_SCHEMA: history
-      ENGINE_DB_READ_MODEL_USER: postgraphile
-      ENGINE_ISSUER_OVERRIDE: http://keycloak:11000/realms/noumena
-      SWAGGER_ENGINE_URL: http://localhost:12000
-      SWAGGER_SECURITY_AUTH_URL: http://localhost:11000/realms/noumena
-      SWAGGER_SECURITY_CLIENT_ID: noumena

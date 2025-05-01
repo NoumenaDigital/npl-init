@@ -4,12 +4,12 @@ package counter;
 protocol[user] Counter(var target: Number) {
 
     initial state counting;
-    state done;
+    final state done;
 
     var i: Number = 0;
 
     @api
-    permission[user] increment()  {
+    permission[user] increment() | counting {
         i = i + 1;
         if (i >= target) {
             become done;

@@ -1,16 +1,8 @@
 schemaVersion: v1
 targets:
-  platform:
-    type: engine
-    engineManagementUrl: http://localhost:12400
-    authUrl: http://localhost:11000/realms/noumena
-    username: user1
-    password: password1
-    clientId: nm-platform-service-client
-    clientSecret: 87ff12ca-cf29-4719-bda8-c92faa78e3c4
   local:
     type: engine
     engineManagementUrl: http://localhost:12400
-    authUrl: http://localhost:11000/realms/noumena
+    authUrl: http://localhost:11000
     username: alice
     password: password123
