@@ -12,7 +12,7 @@ Two methods are available for cloning and utilizing the project:
 1) Via the command shell, first create a directory and then execute the git clone command
 
 ```
-git clone git@github.com:NoumenaDigital/npl-init.git
+mkdir npl-init && curl -sL https://api.github.com/repos/NoumenaDigital/npl-init/tarball | tar xz --strip-components=1 -C npl-init
 ```
 
 or
@@ -30,7 +30,7 @@ folder `src/main/npl-1.0`, go to `Mark directory as` and select `Sources Root`. 
 
 Tests can be run in IntelliJ using the run actions in test files, in file gutters or by using a right-click menu.
 
-Tests can be automatically run using `mvn test` (requires Maven) on the command line.
+Tests can be automatically run using `npl test` (requires the NPL CLI) on the command line.
 
 You should now be able to start programming NPL!
 
@@ -67,7 +67,7 @@ the file gutter.
 
 Test are located in `src/test/npl/objects/test_iou.npl` and can be run or debugged in a similar manner.
 
-From the command line, tests can be run with the maven plugin: `mvn clean test`
+From the command line, tests can be run with the NPL CLI: `npl test`
 
 ### Support
 
