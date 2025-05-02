@@ -7,7 +7,7 @@ services:
       POSTGRES_PASSWORD: welcome123
 
   engine:
-    image: ghcr.io/noumenadigital/packages/engine:14775705332-rc
+    image: ghcr.io/noumenadigital/packages/engine:14778375429-rc
     ports:
       - "11000:11000"
       - "12000:12000"
@@ -16,5 +16,3 @@ services:
     environment:
       ENGINE_DB_PASSWORD: welcome123
       ENGINE_DEV_MODE: true
-      ENGINE_ALLOWED_ISSUERS: http://localhost:11000
-      ENGINE_MANAGEMENT_HOST: 0.0.0.0
