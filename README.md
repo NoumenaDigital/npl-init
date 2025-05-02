@@ -7,6 +7,24 @@ the [Developing on your own machine](https://dev-docs.noumenadigital.com/tracks/
 
 ## Usage
 
+Using the NPL CLI, the project can be run validated for compilation errors with
+
+```shell
+npl check
+```
+
+and for test errors with
+
+```shell
+npl test
+```
+
+Before running the api, the OpenAPI specification can be generated with
+
+```shell
+npl openapi
+```
+
 Using docker and the NPL CLI, the project can be run locally.
 
 ```shell
