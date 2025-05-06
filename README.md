@@ -29,7 +29,7 @@ Using docker and the NPL CLI, the project can be run locally.
 
 ```shell
 docker compose up -d --wait
-npl deploy local src/main
+npl deploy --sourceDir src/main
 ```
 
 fetch a token from the embedded OIDC server
