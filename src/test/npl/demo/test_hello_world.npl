@@ -1,0 +1,17 @@
+package demo;
+
+function getInnovator() returns Party ->
+    partyOf(
+        mapOf(Pair("preferred_username", setOf("innovator"))),
+        mapOf<Text, Set<Text>>()
+    );
+
+@test
+function initCounter(test: Test) -> {
+    var innovator: Party = getInnovator();
+    var helloWorld: HelloWorld = HelloWorld[innovator]();
+    test.assertEquals(HelloWorld.States.greeting, helloWorld.activeState().getOrFail());
+    var result = helloWorld.sayHello[innovator]();
+    test.assertEquals(HelloWorld.States.greeted, helloWorld.activeState().getOrFail());
+    test.assertEquals("Hello " + getUsername(innovator) + "!", result);
+};
