@@ -1,0 +1,5 @@
+demo.HelloWorld:
+  innovator:
+    extract:
+      entity:
+        - preferred_username

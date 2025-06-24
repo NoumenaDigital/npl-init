@@ -1,0 +1,21 @@
+package demo;
+
+@api
+protocol[innovator] HelloWorld() {
+
+    initial state greeting;
+    final state greeted;
+
+    @api
+    permission[innovator] sayHello() returns Text | greeting {
+        become greeted;
+        return "Hello " + getUsername(innovator) + "!";
+    };
+};
+
+function getUsername(party: Party) returns Text -> 
+    party.entity()
+    .getOrNone("preferred_username")
+    .getOrFail()
+    .toList()
+    .get(0);
