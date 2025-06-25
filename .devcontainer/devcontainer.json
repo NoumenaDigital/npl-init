@@ -1,6 +1,5 @@
 {
   "name": "NPL Development Environment",
-  "image": "mcr.microsoft.com/devcontainers/universal:2",
   "dockerComposeFile": "./docker-compose.yml",
   "runServices": ["postgres", "engine"],
   "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
