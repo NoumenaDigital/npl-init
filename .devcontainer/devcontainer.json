@@ -1,9 +1,7 @@
 {
   "name": "NPL Development Environment",
   // "image": "openjdk",
-  "dockerComposeFile": "../docker-compose.yml",
-  "runServices": ["postgres", "engine"],
-  "workspaceFolder": "/workspaces/${localWorkspaceFolderBaseName}",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
   "features": {
     "ghcr.io/devcontainers/features/git:1": {},
     "ghcr.io/devcontainers/features/docker-in-docker:2": {},
