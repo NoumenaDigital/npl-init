@@ -1,8 +1,0 @@
-systemUnderAudit: nplinit
-
-changesets:
-  - name: 1.0.0
-    changes:
-      - reset: true
-      - migrate:
-        dir-list: npl
