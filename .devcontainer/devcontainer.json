@@ -1,10 +1,16 @@
 {
   "name": "NPL Development Environment",
-  "dockerComposeFile": "./docker-compose.yml",
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
+  "dockerComposeFile": "../docker-compose.yml",
   "runServices": ["postgres", "engine"],
-  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBaseName}",
   "features": {
-    "ghcr.io/devcontainers/features/git:1": {}
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {},
+    "ghcr.io/devcontainers/features/java:1": {
+      "version": "17",
+      "installGradle": "true"
+    }
   },
   "customizations": {
     "vscode": {
