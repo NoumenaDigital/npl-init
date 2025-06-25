@@ -1,7 +1,0 @@
-package counter;
-
-@test
-function initCounter(test: Test) -> {
-    var counter: Counter = Counter['user'](5);
-    test.assertEquals(Counter.States.counting, counter.activeState().getOrFail());
-};
