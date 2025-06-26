@@ -1,3 +1,10 @@
 {
-  "name": "NPL Development Environment"
+  "name": "NPL Development Environment",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "noumenadigital.npl-dev-vscode-extension"
+      ]
+    }
+  }
 }
