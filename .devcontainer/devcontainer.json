@@ -1,21 +1,3 @@
 {
-  "name": "NPL Development Environment",
-  "dockerComposeFile": [
-    "../docker-compose.yml"
-  ],
-  "service": "dev",
-  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
-  "features": {
-    "ghcr.io/devcontainers/features/git:1": {},
-    "ghcr.io/devcontainers/features/docker-in-docker:2": {}
-  },
-  "customizations": {
-    "vscode": {
-      "extensions": [
-        "noumenadigital.npl-dev-vscode-extension"
-      ]
-    }
-  },
-  "forwardPorts": [11000, 12000, 12400, 12700, 5432],
-  "postCreateCommand": "curl -s https://documentation.noumenadigital.com/get-npl-cli.sh | bash && docker compose up -d --wait && PATH=/home/codespace/.npl/bin:/root/.npl/bin:$PATH npl deploy --sourceDir src/main"
+  "name": "NPL Development Environment"
 }
