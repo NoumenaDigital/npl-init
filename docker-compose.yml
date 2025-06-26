@@ -13,15 +13,6 @@ services:
       - "12000:12000"
       - "12400:12400"
       - "12700:12700"
-    depends_on:
-      - postgres
     environment:
       ENGINE_DB_PASSWORD: welcome123
       ENGINE_DEV_MODE: true
-
-  dev:
-    image: openjdk:17-jdk-slim
-    ports:
-      - "8080:8080"
-    depends_on:
-      - engine
