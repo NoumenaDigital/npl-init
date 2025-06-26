@@ -6,5 +6,6 @@
         "noumenadigital.npl-dev-vscode-extension"
       ]
     }
-  }
+  },
+  "postCreateCommand": "curl -s https://documentation.noumenadigital.com/get-npl-cli.sh | bash"
 }
