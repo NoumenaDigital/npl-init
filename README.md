@@ -41,7 +41,7 @@ export ACCESS_TOKEN=$(curl -s -X POST http://localhost:11000/token -d "grant_typ
 and interact with the engine to create a hello world protocol
 
 ```shell
-curl -X POST -H 'accept: application/json' -H "Authorization: Bearer $ACCESS_TOKEN" -d '{ "@parties": { "innovator": { "entity": { "preferred_username": [ "alice" ] }, "access": {} }}}' http://localhost:12000/npl/demo/HelloWorld/
+curl -X POST -H 'accept: application/json' -H "Authorization: Bearer $ACCESS_TOKEN" -d '{ "@parties": {}}' http://localhost:12000/npl/demo/HelloWorld/
 ```
 
 say hello (replace the instance ID with the one you got from the previous command)
