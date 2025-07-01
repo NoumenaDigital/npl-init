@@ -1,8 +1,6 @@
 {
   "name": "NPL Development Environment",
-  "build": {
-    "dockerfile": "Dockerfile"
-  },
+  "image": "mcr.microsoft.com/devcontainers/universal:2",
   "customizations": {
     "vscode": {
       "extensions": [
@@ -13,8 +11,7 @@
   "features": {
     "ghcr.io/devcontainers/features/docker-in-docker:2": {
       "version": "latest"
-    }
-  },
-  "remoteUser": "codespace",
-  "containerUser": "codespace"
+    },
+    "ghcr.io/noumenadigital/devcontainers/npl-cli:1": {}
+  }
 }
