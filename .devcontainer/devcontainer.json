@@ -20,7 +20,7 @@
     "ghcr.io/devcontainers/features/node:1": "none",
     "ghcr.io/devcontainers/features/git:1": {
       "version": "latest",
-      "ppa": "false"
+      "ppa": "true"
     },
     "ghcr.io/devcontainers/features/docker-in-docker:2": {
       "version": "latest"
@@ -30,5 +30,8 @@
     "JAVA_HOME": "/usr/lib/jvm/msopenjdk-current"
   },
   "remoteUser": "codespace",
-  "containerUser": "codespace"
+  "containerUser": "codespace",
+  "hostRequirements": {
+    "storage": "32gb"
+  }
 }
