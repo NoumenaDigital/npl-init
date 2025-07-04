@@ -2,8 +2,10 @@
 
 Starter project intended to be a quick start for writing NPL and deploying it in an engine in DEV_MODE.
 
-An easy getting-started can be found on
-the [Developing on your own machine](https://documentation.noumenadigital.com/tracks/developing-NPL-local/) track.
+Instructions to easily get started can be found on
+the [Developing on your own machine](https://documentation.noumenadigital.com/tracks/developing-NPL-local/)
+and [Developing in Github Codespaces](https://documentation.noumenadigital.com/tracks/developing-codespaces/)
+tracks.
 
 ## Usage
 
