@@ -4,6 +4,6 @@ changesets:
   - name: 1.0.0
     changes:
       - migrate:
-          sources:
+        sources:
           - npl
         rules: rules/rules.yml
