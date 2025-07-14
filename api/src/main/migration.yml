@@ -5,5 +5,5 @@ changesets:
     changes:
       - reset: true
       - migrate:
-          dir-list: npl
-          rules: rules/rules_1.0.0.yml
+        dir-list: npl
+        rules: rules/rules_1.0.0.yml
