@@ -10,7 +10,7 @@ function getInnovator() returns Party ->
 function initCounter(test: Test) -> {
     var innovator: Party = getInnovator();
     var helloWorld: HelloWorld = HelloWorld[innovator]();
-    test.assertEquals(HelloWorld.States.greeting, helloWorld.activeState().getOrFail());
+    test.assertEquals(HelloWorld.States.ungreeted, helloWorld.activeState().getOrFail());
     var result = helloWorld.sayHello[innovator]();
     test.assertEquals(HelloWorld.States.greeted, helloWorld.activeState().getOrFail());
     test.assertEquals("Hello " + getUsername(innovator) + "!", result);
