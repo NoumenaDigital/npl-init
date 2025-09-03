@@ -5,14 +5,18 @@ import { Box, CircularProgress } from '@mui/material'
 import { DemoService } from './services/DemoService.ts'
 import { useDirectOidc } from './DirectOidcProvider.tsx'
 
-const ServiceContext = createContext<DemoService | null>(null)
+interface Services {
+    demo: DemoService
+}
 
-export const useServices = (): DemoService => {
-    const configuration = useContext(ServiceContext)
-    if (!configuration) {
-        throw new Error('Service not initialized')
+const ServiceContext = createContext<Services | null>(null)
+
+export const useServices = (): Services => {
+    const services = useContext(ServiceContext)
+    if (!services) {
+        throw new Error('Services not initialized')
     }
-    return configuration
+    return services
 }
 
 interface ServiceProviderProps {
@@ -31,13 +35,17 @@ export const ServiceProvider: React.FC<ServiceProviderProps> = ({
     const { isAuthenticated, user } = isDirectOidc
         ? useDirectOidc()
         : { isAuthenticated: false, user: null }
-    const [services, setServices] = useState<DemoService | null>(null)
+    const [services, setServices] = useState<Services | null>(null)
 
     useEffect(() => {
         if (isKeycloak && initialized && keycloak!.token) {
-            setServices(new DemoService(apiBaseUrl, keycloak!))
+            setServices({
+                demo: new DemoService(apiBaseUrl, keycloak!),
+            })
         } else if (isDirectOidc && isAuthenticated) {
-            setServices(new DemoService(apiBaseUrl, user!))
+            setServices({
+                demo: new DemoService(apiBaseUrl, user!),
+            })
         }
     }, [apiBaseUrl, keycloak, initialized, isAuthenticated, user])
 

@@ -201,6 +201,8 @@ These are critical errors to avoid when working with NPL:
   private var bookingTime: DateTime = now();
   ```
 
+- **Do not name variables the same as keywords**: Never use keywords as variable names. Pay especially close attention to `state`, `symbol`, `return`, `final`, `initial`, `info`, `error`, `days`, `weeks`, `months`, `years` as these are frequently misused.
+
 - **No comments before package declaration**: NOTHING should appear before the package statement. No comments, no
   docstrings, no whitespace. The package declaration must be the very first line of any NPL file.
 
@@ -461,7 +463,7 @@ Use ONLY these methods - do not hallucinate or invent others:
 
 - **Period Methods**:
 
-  - `plus()`, `minus()`, `multiplyBy()`
+  - `plus()`, `minus()`, `multiplyBy()`, `plus(days())`, `minus(days())`, `plus(weeks())`, `minus(weeks())`, `plus(months())`, `minus(months())`, `plus(years())`, `minus(years())`
 
 - **Optional Methods**:
 
@@ -510,6 +512,23 @@ NPL frontend applications must adhere to the following principles and workflow:
 - Only use the functions provided in the generated OpenAPI client (typically found in `src/clients`).
 - Ensure all API payloads and return types strictly match the OpenAPI specification.
 - Create a service class in `src/services/` per client to handle the API calls on the model of the `DemoService` class. Add it to the `ServiceProvider` class in `src/ServiceProvider.tsx`.
+
+An example of how to make an API call:
+
+```ts
+    const { demo } = useServices()
+    const { api, withAuthorizationHeader } = demo
+
+    function getHelloWorldById(iouId: string) {
+        getHelloWorldById({
+            client: api,
+            path: {
+                id: iouId
+            },
+            ...withAuthorizationHeader()
+        }).then((it) => setHelloWorld(it.data))
+    }
+```
 
 ## Minimal Use-Case Focus
 

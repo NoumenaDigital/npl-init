@@ -39,7 +39,8 @@ export const HomePage = () => {
             iouId: ''
         })
 
-    const { api, withAuthorizationHeader, useStateStream } = useServices()
+    const { demo } = useServices()
+    const { api, withAuthorizationHeader, useStateStream } = demo
 
     const [iouList, setIouList] = useState<HelloWorld[]>()
     const active = useStateStream(() =>
