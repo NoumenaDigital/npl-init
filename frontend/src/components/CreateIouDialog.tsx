@@ -19,7 +19,8 @@ export const CreateIouDialog: React.FC<{
     onClose: (_: boolean) => void
 }> = ({ open, onClose }) => {
     const user = useMe()
-    const { api, withAuthorizationHeader } = useServices()
+    const { demo } = useServices()
+    const { api, withAuthorizationHeader } = demo
     const [innovator, setInnovator] = useState<string>('')
 
     const [valid, setValid] = useState(false)

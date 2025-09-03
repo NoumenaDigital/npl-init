@@ -18,7 +18,8 @@ export const RepayIouDialog: React.FC<{
     open: boolean
     onClose: (_: boolean) => void
 }> = ({ iouId, open, onClose }) => {
-    const { api, withAuthorizationHeader } = useServices()
+    const { demo } = useServices()
+    const { api, withAuthorizationHeader } = demo
 
     const [helloWorld, setHelloWorld] = useState<HelloWorld>()
 
