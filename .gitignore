@@ -12,5 +12,6 @@ tags
 .vscode
 .cursorrules
 cli
-*.tfstate
+*.tfstate*
 .terraform*
+.claude

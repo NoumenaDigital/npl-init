@@ -8,7 +8,8 @@
         "build": "tsc && vite build",
         "format": "prettier . --write",
         "format:ci": "prettier . --check",
-        "preview": "vite preview"
+        "preview": "vite preview",
+        "generate-clients": "bash generate-all-clients.sh"
     },
     "dependencies": {
         "@emotion/react": "^11.14.0",
