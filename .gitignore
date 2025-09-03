@@ -11,3 +11,6 @@ tags
 .npl
 .vscode
 .cursorrules
+cli
+*.tfstate
+.terraform*
