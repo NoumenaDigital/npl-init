@@ -509,6 +509,7 @@ NPL frontend applications must adhere to the following principles and workflow:
 - All backend API endpoints are defined in the OpenAPI specification. Do not invent or hallucinate endpoints.
 - Only use the functions provided in the generated OpenAPI client (typically found in `src/clients`).
 - Ensure all API payloads and return types strictly match the OpenAPI specification.
+- Create a service class in `src/services/` per client to handle the API calls on the model of the `DemoService` class. Add it to the `ServiceProvider` class in `src/ServiceProvider.tsx`.
 
 ## Minimal Use-Case Focus
 

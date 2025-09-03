@@ -12,7 +12,7 @@ import {
 } from '@mui/material'
 import { useMe } from '../UserProvider.tsx'
 import { useServices } from '../ServiceProvider.tsx'
-import { createIou } from '../api-client'
+import { createHelloWorld } from '../clients/demo/sdk.gen'
 
 export const CreateIouDialog: React.FC<{
     open: boolean
@@ -20,57 +20,30 @@ export const CreateIouDialog: React.FC<{
 }> = ({ open, onClose }) => {
     const user = useMe()
     const { api, withAuthorizationHeader } = useServices()
-    const [description, setDescription] = useState<string>('')
-    const [payee, setPayee] = useState<string>('')
-    const [forAmount, setForAmount] = useState<number>()
+    const [innovator, setInnovator] = useState<string>('')
 
     const [valid, setValid] = useState(false)
 
     const create = async () => {
-        await createIou({
+        await createHelloWorld({
             body: {
-                description: description,
-                forAmount: forAmount || 0,
                 ['@parties']: {
-                    issuer: {
+                    innovator: {
                         entity: {
-                            email: [user.email]
-                        },
-                        access: {}
-                    },
-                    payee: {
-                        entity: {
-                            email: [payee]
+                            email: [innovator || user.email]
                         },
                         access: {}
                     }
                 }
             },
-            method: 'POST',
             client: api,
             ...withAuthorizationHeader()
         }).then(() => onClose(true))
     }
 
-    const handleForAmountChange = (input: string) => {
-        try {
-            if (input !== '') {
-                setForAmount(parseInt(input, 10))
-                setValid(true)
-            } else {
-                setValid(false)
-            }
-        } catch (e: unknown) {
-            setValid(false)
-        }
-    }
-
-    const handleDescriptionChange = (input: string) => {
-        setDescription(input)
-    }
-
-    const handlePayeeChange = (input: string) => {
-        setPayee(input)
+    const handleInnovatorChange = (input: string) => {
+        setInnovator(input)
+        setValid(input.length > 0)
     }
 
     return (
@@ -81,7 +54,7 @@ export const CreateIouDialog: React.FC<{
                 textAlign={'center'}
             >
                 {' '}
-                Create new IOU
+                Create new Hello World
             </DialogTitle>
             <DialogContent>
                 <Divider></Divider>
@@ -96,39 +69,14 @@ export const CreateIouDialog: React.FC<{
                         <TextField
                             id="outlined-basic"
                             focused={true}
-                            label={`Description`}
+                            label={`Innovator Email`}
                             variant="outlined"
-                            value={description}
-                            type={'string'}
-                            onChange={(e) =>
-                                handleDescriptionChange(e.target.value)
-                            }
-                        />
-                    </FormControl>
-                    <br />
-                    <FormControl sx={{ m: 1, width: '50%' }}>
-                        <TextField
-                            id="outlined-basic"
-                            focused={true}
-                            label={`For Amount`}
-                            variant="outlined"
-                            value={forAmount}
-                            type={'number'}
-                            onChange={(e) =>
-                                handleForAmountChange(e.target.value)
-                            }
-                        />
-                    </FormControl>
-                    <br />
-                    <FormControl sx={{ m: 1, width: '50%' }}>
-                        <TextField
-                            id="outlined-basic"
-                            focused={true}
-                            label={`Payee`}
-                            variant="outlined"
-                            value={payee}
+                            value={innovator}
                             type={'email'}
-                            onChange={(e) => handlePayeeChange(e.target.value)}
+                            placeholder={user.email}
+                            onChange={(e) =>
+                                handleInnovatorChange(e.target.value)
+                            }
                         />
                     </FormControl>
                 </Box>

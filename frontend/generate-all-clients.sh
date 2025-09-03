@@ -2,7 +2,7 @@
 
 # Directory containing OpenAPI files
 OPENAPI_DIR="../openapi"
-OUTPUT_BASE_DIR="./src"
+OUTPUT_BASE_DIR="./src/clients"
 
 # Create output directory if it doesn't exist
 mkdir -p "$OUTPUT_BASE_DIR"
