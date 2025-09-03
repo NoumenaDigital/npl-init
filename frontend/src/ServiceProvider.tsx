@@ -2,12 +2,12 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 import { useRuntimeConfiguration } from './RuntimeConfigurationProvider.tsx'
 import { useKeycloak } from '@react-keycloak/web'
 import { Box, CircularProgress } from '@mui/material'
-import { BaseService } from './services/BaseService.ts'
+import { DemoService } from './services/DemoService.ts'
 import { useDirectOidc } from './DirectOidcProvider.tsx'
 
-const ServiceContext = createContext<BaseService | null>(null)
+const ServiceContext = createContext<DemoService | null>(null)
 
-export const useServices = (): BaseService => {
+export const useServices = (): DemoService => {
     const configuration = useContext(ServiceContext)
     if (!configuration) {
         throw new Error('Service not initialized')
@@ -31,13 +31,13 @@ export const ServiceProvider: React.FC<ServiceProviderProps> = ({
     const { isAuthenticated, user } = isDirectOidc
         ? useDirectOidc()
         : { isAuthenticated: false, user: null }
-    const [services, setServices] = useState<BaseService | null>(null)
+    const [services, setServices] = useState<DemoService | null>(null)
 
     useEffect(() => {
         if (isKeycloak && initialized && keycloak!.token) {
-            setServices(new BaseService(apiBaseUrl, keycloak!))
+            setServices(new DemoService(apiBaseUrl, keycloak!))
         } else if (isDirectOidc && isAuthenticated) {
-            setServices(new BaseService(apiBaseUrl, user!))
+            setServices(new DemoService(apiBaseUrl, user!))
         }
     }, [apiBaseUrl, keycloak, initialized, isAuthenticated, user])
 

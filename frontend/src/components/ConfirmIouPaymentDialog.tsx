@@ -7,11 +7,11 @@ import {
     DialogContent,
     DialogTitle,
     Divider,
-    TextField
+    Typography
 } from '@mui/material'
 import { useServices } from '../ServiceProvider.tsx'
-import { Iou } from '../api-client/types.gen'
-import { getIouById, iouConfirmPayment } from '../api-client/sdk.gen.ts'
+import { HelloWorld } from '../clients/demo/types.gen'
+import { getHelloWorldById } from '../clients/demo/sdk.gen'
 
 export const ConfirmIouPaymentDialog: React.FC<{
     iouId: string
@@ -20,30 +20,23 @@ export const ConfirmIouPaymentDialog: React.FC<{
 }> = ({ iouId, open, onClose }) => {
     const { api, withAuthorizationHeader } = useServices()
 
-    const [iou, setIou] = useState<Iou>()
+    const [helloWorld, setHelloWorld] = useState<HelloWorld>()
     const valid = true
 
     useEffect(() => {
         if (iouId && iouId !== '') {
-            getIouById({
+            getHelloWorldById({
                 client: api,
                 path: {
                     id: iouId
                 },
                 ...withAuthorizationHeader()
-            }).then((it) => setIou(it.data))
+            }).then((it) => setHelloWorld(it.data))
         }
     }, [api, withAuthorizationHeader, iouId])
 
-    const confirmAction = async () => {
-        await iouConfirmPayment({
-            client: api,
-            path: {
-                id: iouId
-            },
-            method: 'POST',
-            ...withAuthorizationHeader()
-        }).then(() => onClose(true))
+    const closeAction = async () => {
+        onClose(true)
     }
 
     return (
@@ -54,7 +47,7 @@ export const ConfirmIouPaymentDialog: React.FC<{
                 textAlign={'center'}
             >
                 {' '}
-                Confirm payment to {iou?.description}
+                Hello World Protocol Details
             </DialogTitle>
             <DialogContent>
                 <Divider></Divider>
@@ -65,15 +58,17 @@ export const ConfirmIouPaymentDialog: React.FC<{
                     alignItems={'center'}
                 >
                     <br />
-                    <TextField
-                        id="outlined-basic"
-                        focused={true}
-                        label={`Repayment amount`}
-                        variant="outlined"
-                        value={iou?.paymentToBeConfirmed?.amount}
-                        type={'number'}
-                        inputProps={{ readOnly: true }}
-                    />
+                    <Typography variant="body1" color="text.secondary">
+                        Protocol ID: {helloWorld?.['@id']}
+                    </Typography>
+                    <br />
+                    <Typography variant="body1" color="text.secondary">
+                        State: {helloWorld?.['@state']}
+                    </Typography>
+                    <br />
+                    <Typography variant="body1" color="text.secondary">
+                        Available Actions: {helloWorld?.['@actions']?.sayHello ? 'Say Hello' : 'None'}
+                    </Typography>
                 </Box>
             </DialogContent>
             <DialogActions>
@@ -86,10 +81,10 @@ export const ConfirmIouPaymentDialog: React.FC<{
                 </Button>
                 <Button
                     variant={'contained'}
-                    onClick={confirmAction}
+                    onClick={closeAction}
                     disabled={!valid}
                 >
-                    Confirm payment
+                    Close
                 </Button>
             </DialogActions>
         </Dialog>

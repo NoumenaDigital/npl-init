@@ -15,11 +15,11 @@ import {
 } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useServices } from '../ServiceProvider'
-import { Iou } from '../api-client/types.gen'
+import { HelloWorld } from '../clients/demo/types.gen'
 import { CreateIouDialog } from './CreateIouDialog'
 import { RepayIouDialog } from './RepayIouDialog'
 import { ConfirmIouPaymentDialog } from './ConfirmIouPaymentDialog'
-import { getIouList } from '../api-client'
+import { getHelloWorldList } from '../clients/demo/sdk.gen'
 
 interface ViewDialog {
     open: boolean
@@ -41,9 +41,9 @@ export const HomePage = () => {
 
     const { api, withAuthorizationHeader, useStateStream } = useServices()
 
-    const [iouList, setIouList] = useState<Iou[]>()
+    const [iouList, setIouList] = useState<HelloWorld[]>()
     const active = useStateStream(() =>
-        getIouList({
+        getHelloWorldList({
             client: api,
             ...withAuthorizationHeader()
         }).then((it) => setIouList(it.data?.items))
@@ -51,7 +51,7 @@ export const HomePage = () => {
 
     useEffect(() => {
         if (!createIouDialogOpen && !repayIouDialogOpen.open) {
-            getIouList({
+            getHelloWorldList({
                 client: api,
                 ...withAuthorizationHeader()
             }).then((it) => setIouList(it.data?.items))
@@ -72,7 +72,7 @@ export const HomePage = () => {
                     Overview
                 </Typography>
                 <Typography variant="body1" color="text.secondary">
-                    Manage your IOUs and track payment status
+                    Manage your Hello World protocols
                 </Typography>
             </Box>
 
@@ -93,7 +93,7 @@ export const HomePage = () => {
                         variant="h6"
                         sx={{ color: 'text.secondary', fontWeight: 500 }}
                     >
-                        Total IOUs
+                        Total Protocols
                     </Typography>
                 </Card>
 
@@ -102,14 +102,14 @@ export const HomePage = () => {
                         variant="h3"
                         sx={{ color: 'success.main', fontWeight: 700, mb: 1 }}
                     >
-                        {iouList?.filter((it) => it['@state'] === 'repaid')
+                        {iouList?.filter((it) => it['@state'] === 'greeted')
                             .length || 0}
                     </Typography>
                     <Typography
                         variant="h6"
                         sx={{ color: 'text.secondary', fontWeight: 500 }}
                     >
-                        Repaid IOUs
+                        Greeted Protocols
                     </Typography>
                 </Card>
 
@@ -118,14 +118,14 @@ export const HomePage = () => {
                         variant="h3"
                         sx={{ color: 'warning.main', fontWeight: 700, mb: 1 }}
                     >
-                        {iouList?.filter((it) => it['@state'] === 'unpaid')
+                        {iouList?.filter((it) => it['@state'] === 'greeting')
                             .length || 0}
                     </Typography>
                     <Typography
                         variant="h6"
                         sx={{ color: 'text.secondary', fontWeight: 500 }}
                     >
-                        Pending IOUs
+                        Pending Greetings
                     </Typography>
                 </Card>
             </Box>
@@ -142,7 +142,7 @@ export const HomePage = () => {
                         }}
                     >
                         <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                            IOU Management
+                            Hello World Management
                         </Typography>
                         <Button
                             onClick={() => setCreateIouDialogOpen(true)}
@@ -156,7 +156,7 @@ export const HomePage = () => {
                                 }
                             }}
                         >
-                            Create IOU
+                            Create Hello World
                         </Button>
                     </Box>
 
@@ -164,13 +164,7 @@ export const HomePage = () => {
                         <Table>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Description</TableCell>
-                                    <TableCell align="right">
-                                        Total Amount
-                                    </TableCell>
-                                    <TableCell align="right">
-                                        Amount Remaining
-                                    </TableCell>
+                                    <TableCell>Protocol ID</TableCell>
                                     <TableCell align="center">Status</TableCell>
                                     <TableCell align="center">
                                         Actions
@@ -194,26 +188,7 @@ export const HomePage = () => {
                                                     variant="body2"
                                                     sx={{ fontWeight: 500 }}
                                                 >
-                                                    {it.description}
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell align="right">
-                                                <Typography
-                                                    variant="body2"
-                                                    sx={{ fontWeight: 600 }}
-                                                >
-                                                    ${it.forAmount}
-                                                </Typography>
-                                            </TableCell>
-                                            <TableCell align="right">
-                                                <Typography
-                                                    variant="body2"
-                                                    sx={{
-                                                        fontWeight: 600,
-                                                        color: 'warning.main'
-                                                    }}
-                                                >
-                                                    ${it.amountOwed}
+                                                    {it['@id']}
                                                 </Typography>
                                             </TableCell>
                                             <TableCell align="center">
@@ -222,10 +197,10 @@ export const HomePage = () => {
                                                     size="small"
                                                     color={
                                                         it['@state'] ===
-                                                        'repaid'
+                                                        'greeted'
                                                             ? 'success'
                                                             : it['@state'] ===
-                                                                'unpaid'
+                                                                'greeting'
                                                               ? 'warning'
                                                               : 'default'
                                                     }
@@ -237,11 +212,11 @@ export const HomePage = () => {
                                                 />
                                             </TableCell>
                                             <TableCell align="center">
-                                                {it['@state'] === 'unpaid' &&
-                                                    it['@actions']?.pay && (
+                                                {it['@state'] === 'greeting' &&
+                                                    it['@actions']?.sayHello && (
                                                         <Button
                                                             size="small"
-                                                            variant="outlined"
+                                                            variant="contained"
                                                             onClick={() =>
                                                                 setRepayIouDialogOpen(
                                                                     {
@@ -252,30 +227,8 @@ export const HomePage = () => {
                                                                     }
                                                                 )
                                                             }
-                                                            sx={{ mr: 1 }}
                                                         >
-                                                            Repay
-                                                        </Button>
-                                                    )}
-                                                {it['@state'] ===
-                                                    'payment_confirmation_required' &&
-                                                    it['@actions']
-                                                        ?.confirmPayment && (
-                                                        <Button
-                                                            size="small"
-                                                            variant="contained"
-                                                            onClick={() =>
-                                                                setConfirmIouDialogOpen(
-                                                                    {
-                                                                        open: true,
-                                                                        iouId: it[
-                                                                            '@id'
-                                                                        ]
-                                                                    }
-                                                                )
-                                                            }
-                                                        >
-                                                            Confirm Payment
+                                                            Say Hello
                                                         </Button>
                                                     )}
                                             </TableCell>
@@ -284,7 +237,7 @@ export const HomePage = () => {
                                 ) : (
                                     <TableRow>
                                         <TableCell
-                                            colSpan={5}
+                                            colSpan={3}
                                             align="center"
                                             sx={{ py: 8 }}
                                         >
@@ -292,8 +245,8 @@ export const HomePage = () => {
                                                 variant="body1"
                                                 color="text.secondary"
                                             >
-                                                No IOUs found. Create your first
-                                                IOU to get started.
+                                                No Hello World protocols found. Create your first
+                                                protocol to get started.
                                             </Typography>
                                         </TableCell>
                                     </TableRow>

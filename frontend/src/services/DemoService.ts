@@ -1,11 +1,11 @@
-import { client } from '../api-client/client.gen'
-import { Client } from '../api-client/client/types'
+import { client } from '../clients/demo/client.gen'
+import { Client } from '../clients/demo/client/types.gen'
 import { EventSourcePolyfill } from 'event-source-polyfill'
 import Keycloak from 'keycloak-js'
 import { useEffect, useState } from 'react'
 import { CustomOidc } from '../CustomOidc'
 
-export class BaseService {
+export class DemoService {
     api: Client
     private apiBaseUrl: string
     private authProvider: Keycloak | CustomOidc
@@ -29,7 +29,7 @@ export class BaseService {
         const [active, setActive] = useState(true)
 
         useEffect(() => {
-            const source = new EventSourcePolyfill(
+            const source = new (EventSourcePolyfill as any)(
                 this.apiBaseUrl + '/api/streams/states',
                 this.withAuthorizationHeader()
             )

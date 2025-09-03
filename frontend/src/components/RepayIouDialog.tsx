@@ -7,12 +7,11 @@ import {
     DialogContent,
     DialogTitle,
     Divider,
-    FormControl,
-    TextField
+    Typography
 } from '@mui/material'
 import { useServices } from '../ServiceProvider.tsx'
-import { Iou } from '../api-client/types.gen'
-import { getIouById, iouPay } from '../api-client/sdk.gen.ts'
+import { HelloWorld } from '../clients/demo/types.gen'
+import { getHelloWorldById, helloWorldSayHello } from '../clients/demo/sdk.gen'
 
 export const RepayIouDialog: React.FC<{
     iouId: string
@@ -21,45 +20,33 @@ export const RepayIouDialog: React.FC<{
 }> = ({ iouId, open, onClose }) => {
     const { api, withAuthorizationHeader } = useServices()
 
-    const [iou, setIou] = useState<Iou>()
+    const [helloWorld, setHelloWorld] = useState<HelloWorld>()
 
-    const [amount, setAmount] = useState<number>(0)
-    const [valid, setValid] = useState(false)
+    const [valid] = useState(true)
 
     useEffect(() => {
         if (iouId && iouId !== '') {
-            getIouById({
+            getHelloWorldById({
                 client: api,
                 path: {
                     id: iouId
                 },
                 ...withAuthorizationHeader()
-            }).then((it) => setIou(it.data))
+            }).then((it) => setHelloWorld(it.data))
         }
     }, [api, withAuthorizationHeader, iouId])
 
-    const payAction = async () => {
-        await iouPay({
+    const sayHelloAction = async () => {
+        await helloWorldSayHello({
             client: api,
             path: {
                 id: iouId
             },
-            body: {
-                amount: amount
-            },
-            method: 'POST',
             ...withAuthorizationHeader()
         }).then(() => onClose(true))
     }
 
-    const handleAmountChange = (input: string) => {
-        try {
-            setAmount(parseInt(input, 10))
-            setValid(true)
-        } catch (e: unknown) {
-            setValid(false)
-        }
-    }
+
 
     return (
         <Dialog open={open} onClose={onClose} fullWidth={true} maxWidth={'lg'}>
@@ -69,7 +56,7 @@ export const RepayIouDialog: React.FC<{
                 textAlign={'center'}
             >
                 {' '}
-                Repay {iou?.description}
+                Say Hello to {helloWorld?.['@id']}
             </DialogTitle>
             <DialogContent>
                 <Divider></Divider>
@@ -80,17 +67,9 @@ export const RepayIouDialog: React.FC<{
                     alignItems={'center'}
                 >
                     <br />
-                    <FormControl sx={{ m: 1, width: '50%' }}>
-                        <TextField
-                            id="outlined-basic"
-                            focused={true}
-                            label={`Amount`}
-                            variant="outlined"
-                            value={amount}
-                            type={'number'}
-                            onChange={(e) => handleAmountChange(e.target.value)}
-                        />
-                    </FormControl>
+                    <Typography variant="body1" color="text.secondary">
+                        This will trigger the sayHello action for the Hello World protocol.
+                    </Typography>
                 </Box>
             </DialogContent>
             <DialogActions>
@@ -103,10 +82,10 @@ export const RepayIouDialog: React.FC<{
                 </Button>
                 <Button
                     variant={'contained'}
-                    onClick={payAction}
+                    onClick={sayHelloAction}
                     disabled={!valid}
                 >
-                    Pay
+                    Say Hello
                 </Button>
             </DialogActions>
         </Dialog>
