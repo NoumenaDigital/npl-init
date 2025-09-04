@@ -16,3 +16,14 @@ services:
     environment:
       ENGINE_DB_PASSWORD: postgres
       ENGINE_DEV_MODE: true
+
+  nginx-proxy:
+    image: nginx:latest
+    ports:
+      - "12001:12001"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/snippets:/etc/nginx/snippets
+    depends_on:
+      engine:
+        condition: service_healthy
