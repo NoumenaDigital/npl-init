@@ -28,7 +28,7 @@ export const ServiceProvider: React.FC<ServiceProviderProps> = ({
 }) => {
     const { apiBaseUrl, loginMode } = useRuntimeConfiguration()
     const isKeycloak = loginMode === 'KEYCLOAK'
-    const isDirectOidc = loginMode === 'CUSTOM_OIDC'
+    const isDirectOidc = loginMode === 'CUSTOM_OIDC' || loginMode === 'DEV_MODE'
     const { keycloak, initialized } = isKeycloak
         ? useKeycloak()
         : { keycloak: null, initialized: false }

@@ -504,7 +504,7 @@ NPL frontend applications must adhere to the following principles and workflow:
 - **If a frontend folder with a baseline already exists:**
   - Use the existing frontend folder as your starting point. Do not re-initialize or overwrite the baseline.
   - From the root directory, run `npl openapi` to generate the API yaml description.
-  - From the frontend directory, run `npm install && npm run generate-client` to generate the API client. Do this as frequently as needed.
+  - From the frontend directory, run `npm install && npm run generate-clients` to generate the API client. Do this as frequently as needed.
 
 ## OpenAPI Integration
 
@@ -512,6 +512,37 @@ NPL frontend applications must adhere to the following principles and workflow:
 - Only use the functions provided in the generated OpenAPI client (typically found in `src/clients`).
 - Ensure all API payloads and return types strictly match the OpenAPI specification.
 - Create a service class in `src/services/` per client to handle the API calls on the model of the `DemoService` class. Add it to the `ServiceProvider` class in `src/ServiceProvider.tsx`.
+
+The DemoService class is an example of how to create a service class. Make sure to limit the scope of the changes to adjusting to the new client.
+```ts
+import { client } from '../clients/demo/client.gen'
+import { Client } from '../clients/demo/client/types.gen'
+import { EventSourcePolyfill } from 'event-source-polyfill'
+import Keycloak from 'keycloak-js'
+import { useEffect, useState } from 'react'
+import { CustomOidc } from '../CustomOidc'
+
+export class DemoService {
+    api: Client
+    private apiBaseUrl: string
+    private authProvider: Keycloak | CustomOidc
+
+    constructor(apiBaseUrl: string, authProvider: Keycloak | CustomOidc) {
+        this.authProvider = authProvider
+        this.apiBaseUrl = apiBaseUrl
+        this.api = client
+        this.api.setConfig({
+            baseUrl: apiBaseUrl
+        })
+    }
+
+    withAuthorizationHeader = () => {
+        return {
+            headers: { Authorization: `Bearer ${this.authProvider.token}` }
+        }
+    }
+}
+```
 
 An example of how to make an API call:
 
@@ -538,9 +569,10 @@ An example of how to make an API call:
 ## Party Representation
 
 - Party objects identify users and must use the following structure: `{ "entity": { "key": ["value"] }, "access": {} }`
-- For individuals, use the email key: `{ "entity": { "email": ["user@example.com"] }, "access": {} }`
+- For individuals, use the email key: `{ "entity": { "email": ["{{userEmail}}"] }, "access": {} }`
 - For groups, use the relevant identifying attribute as the key: `{ "entity": { "organization": ["commonOrganization"] }, "access": {} }`.
 - Leave claims empty for parties accessible by all users.
+- The email is extracted from the user object in the UserProvider.tsx file.
 
 ## Frontend Development Rules
 
@@ -558,6 +590,10 @@ An example of how to make an API call:
 ## Authorization
 
 - Use the keycloak library for authentication and authorization.
+
+## Date representation
+
+- Use the `YYYY-MM-DDTHH:MM:SS.SSS+01:00[Europe/Zurich]` format for dates.
 
 ## Build and Deployment
 

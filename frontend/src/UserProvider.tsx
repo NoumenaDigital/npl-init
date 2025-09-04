@@ -54,7 +54,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             if (initialized && keycloak?.tokenParsed) {
                 internalizeUser(keycloak.tokenParsed).then((it) => setUser(it))
             }
-        } else if (loginMode === 'CUSTOM_OIDC') {
+        } else if (loginMode === 'CUSTOM_OIDC' || loginMode === 'DEV_MODE') {
             if (directOidcAuth?.isAuthenticated && directOidcAuth.user) {
                 setUser(directOidcAuth.user)
             }
