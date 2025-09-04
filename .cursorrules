@@ -544,9 +544,11 @@ export class DemoService {
 }
 ```
 
-An example of how to make an API call:
+A partial example of how to make an API call:
 
 ```ts
+import { getHelloWorldById } from '../clients/demo/sdk.gen'
+
     const { demo } = useServices()
     const { api, withAuthorizationHeader } = demo
 
