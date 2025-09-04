@@ -1,5 +1,5 @@
 import { client } from '../clients/demo/client.gen'
-import { Client } from '../clients/demo/client/types.gen'
+import { Client } from '../clients/demo/client/types.ts'
 import { EventSourcePolyfill } from 'event-source-polyfill'
 import Keycloak from 'keycloak-js'
 import { useEffect, useState } from 'react'
