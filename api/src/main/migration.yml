@@ -6,4 +6,4 @@ changesets:
       - migrate:
           sources:
           - npl
-          rules: rules/rules_1.0.0.yml
+          rules: rules/rules.yml
