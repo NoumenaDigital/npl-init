@@ -4,7 +4,7 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_PASSWORD: welcome123
+      POSTGRES_PASSWORD: postgres
 
   engine:
     image: ghcr.io/noumenadigital/images/engine:latest
@@ -14,5 +14,5 @@ services:
       - "12400:12400"
       - "12700:12700"
     environment:
-      ENGINE_DB_PASSWORD: welcome123
+      ENGINE_DB_PASSWORD: postgres
       ENGINE_DEV_MODE: true
