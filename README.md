@@ -25,32 +25,32 @@ Before running the api, the OpenAPI specification can be generated with
 npl openapi
 ```
 
-Using docker and the NPL CLI, the project can be run locally.
+Using docker and the NPL CLI, the project can be run locally:
 
 ```shell
 docker compose up -d --wait
-npl deploy --sourceDir api/src/main
+npl deploy --sourceDir api/src/main --clear
 ```
 
-fetch a token from the embedded OIDC server
+Fetch a token from the embedded OIDC server with
 
 ```shell
 export ACCESS_TOKEN=$(curl -s -X POST http://localhost:11000/token -d "grant_type=password" -d "username=alice" -d "password=password123" | jq -r .access_token)
 ```
 
-and interact with the engine to create a hello world protocol
+and interact with the engine to create a hello world protocol:
 
 ```shell
 curl -X POST -H 'accept: application/json' -H "Authorization: Bearer $ACCESS_TOKEN" -d '{ "@parties": {}}' http://localhost:12000/npl/demo/HelloWorld/
 ```
 
-say hello (replace the instance ID with the one you got from the previous command)
+Say hello (replace the instance ID with the one you got from the previous command):
 
 ```shell
 curl -X POST -H 'accept: application/json' -H "Authorization: Bearer $ACCESS_TOKEN" http://localhost:12000/npl/demo/HelloWorld/{instanceId}/sayHello
 ```
 
-and get the result
+and examine the resulting state of the protocol instance:
 
 ```shell
 curl -X GET -H 'accept: application/json' -H "Authorization: Bearer $ACCESS_TOKEN" http://localhost:12000/npl/demo/HelloWorld/
