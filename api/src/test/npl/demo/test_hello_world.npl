@@ -1,10 +1,7 @@
 package demo;
 
 function getInnovator() returns Party ->
-    partyOf(
-        mapOf(Pair("preferred_username", setOf("innovator"))),
-        mapOf<Text, Set<Text>>()
-    );
+    partyOf(mapOf(Pair("preferred_username", setOf("innovator"))));
 
 @test
 function initCounter(test: Test) -> {
