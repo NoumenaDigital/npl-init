@@ -12,28 +12,34 @@ import {
 } from '@mui/material'
 import { useMe } from '../UserProvider.tsx'
 import { useServices } from '../ServiceProvider.tsx'
-import { createHelloWorld } from '../clients/demo/sdk.gen'
+import { createDocument } from '../clients/document/sdk.gen'
 
-export const CreateIouDialog: React.FC<{
+export const CreateDocumentDialog: React.FC<{
     open: boolean
     onClose: (_: boolean) => void
 }> = ({ open, onClose }) => {
     const user = useMe()
-    const { demo } = useServices()
-    const { api, withAuthorizationHeader } = demo
-    const [innovator, setInnovator] = useState<string>('')
+    const { document } = useServices()
+    const { api, withAuthorizationHeader } = document
+    const [content, setContent] = useState<string>('')
+    const [approverEmail, setApproverEmail] = useState<string>('')
 
     const [valid, setValid] = useState(false)
 
     const create = async () => {
-        await createHelloWorld({
+        await createDocument({
             body: {
+                content: content,
                 ['@parties']: {
-                    innovator: {
-                        entity: {
-                            email: [innovator || user.email]
-                        },
-                        access: {}
+                    editor: {
+                        claims: {
+                            email: [user.email]
+                        }
+                    },
+                    approver: {
+                        claims: {
+                            email: [approverEmail || user.email]
+                        }
                     }
                 }
             },
@@ -42,8 +48,8 @@ export const CreateIouDialog: React.FC<{
         }).then(() => onClose(true))
     }
 
-    const handleInnovatorChange = (input: string) => {
-        setInnovator(input)
+    const handleContentChange = (input: string) => {
+        setContent(input)
         setValid(input.length > 0)
     }
 
@@ -55,7 +61,7 @@ export const CreateIouDialog: React.FC<{
                 textAlign={'center'}
             >
                 {' '}
-                Create new Hello World
+                Create New Document
             </DialogTitle>
             <DialogContent>
                 <Divider></Divider>
@@ -64,20 +70,32 @@ export const CreateIouDialog: React.FC<{
                     display={'flex'}
                     flexDirection={'column'}
                     alignItems={'center'}
+                    gap={2}
                 >
-                    <br />
-                    <FormControl sx={{ m: 1, width: '50%' }}>
+                    <FormControl sx={{ width: '100%' }}>
                         <TextField
-                            id="outlined-basic"
+                            id="document-content"
                             focused={true}
-                            label={`Innovator Email`}
+                            label="Document Content"
                             variant="outlined"
-                            value={innovator}
+                            value={content}
+                            multiline
+                            rows={6}
+                            placeholder="Enter the content of your document..."
+                            onChange={(e) =>
+                                handleContentChange(e.target.value)
+                            }
+                        />
+                    </FormControl>
+                    <FormControl sx={{ width: '100%' }}>
+                        <TextField
+                            id="approver-email"
+                            label="Approver Email"
+                            variant="outlined"
+                            value={approverEmail}
                             type={'email'}
                             placeholder={user.email}
-                            onChange={(e) =>
-                                handleInnovatorChange(e.target.value)
-                            }
+                            onChange={(e) => setApproverEmail(e.target.value)}
                         />
                     </FormControl>
                 </Box>
@@ -95,7 +113,7 @@ export const CreateIouDialog: React.FC<{
                     onClick={create}
                     disabled={!valid}
                 >
-                    Create
+                    Create Document
                 </Button>
             </DialogActions>
         </Dialog>

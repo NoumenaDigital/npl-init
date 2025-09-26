@@ -1,11 +1,11 @@
-import { client } from '../clients/demo/client.gen'
-import { Client } from '../clients/demo/client/types.ts'
+import { client } from '../clients/document/client.gen'
+import { Client } from '../clients/document/client/types.ts'
 import { EventSourcePolyfill } from 'event-source-polyfill'
 import Keycloak from 'keycloak-js'
 import { useEffect, useState } from 'react'
 import { CustomOidc } from '../CustomOidc'
 
-export class DemoService {
+export class DocumentService {
     api: Client
     private apiBaseUrl: string
     private authProvider: Keycloak | CustomOidc

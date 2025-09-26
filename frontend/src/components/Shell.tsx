@@ -122,8 +122,9 @@ export default function Shell() {
                 elevation={0}
             >
                 <Toolbar sx={{ justifyContent: 'space-between', px: 3 }}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                    </Box>
+                    <Box
+                        sx={{ display: 'flex', alignItems: 'center', gap: 2 }}
+                    ></Box>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                         <Typography
                             variant="body2"
@@ -229,10 +230,9 @@ export default function Shell() {
                                 letterSpacing: '0.5px'
                             }}
                         >
-                            NOVEL
+                            MENU
                         </Typography>
                     </Box>
-
 
                     <List component="nav" sx={{ p: 0 }}>
                         {menuItems.map((it, index) => (

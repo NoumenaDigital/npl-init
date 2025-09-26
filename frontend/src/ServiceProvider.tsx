@@ -2,11 +2,11 @@ import React, { createContext, useContext, useEffect, useState } from 'react'
 import { useRuntimeConfiguration } from './RuntimeConfigurationProvider.tsx'
 import { useKeycloak } from '@react-keycloak/web'
 import { Box, CircularProgress } from '@mui/material'
-import { DemoService } from './services/DemoService.ts'
+import { DocumentService } from './services/DocumentService.ts'
 import { useDirectOidc } from './DirectOidcProvider.tsx'
 
 interface Services {
-    demo: DemoService
+    document: DocumentService
 }
 
 const ServiceContext = createContext<Services | null>(null)
@@ -40,11 +40,11 @@ export const ServiceProvider: React.FC<ServiceProviderProps> = ({
     useEffect(() => {
         if (isKeycloak && initialized && keycloak!.token) {
             setServices({
-                demo: new DemoService(apiBaseUrl, keycloak!),
+                document: new DocumentService(apiBaseUrl, keycloak!)
             })
         } else if (isDirectOidc && isAuthenticated) {
             setServices({
-                demo: new DemoService(apiBaseUrl, user!),
+                document: new DocumentService(apiBaseUrl, user!)
             })
         }
     }, [apiBaseUrl, keycloak, initialized, isAuthenticated, user])

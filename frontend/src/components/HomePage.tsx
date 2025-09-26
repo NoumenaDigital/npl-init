@@ -15,52 +15,53 @@ import {
 } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useServices } from '../ServiceProvider'
-import { HelloWorld } from '../clients/demo/types.gen'
-import { CreateIouDialog } from './CreateIouDialog'
-import { RepayIouDialog } from './RepayIouDialog'
-import { ConfirmIouPaymentDialog } from './ConfirmIouPaymentDialog'
-import { getHelloWorldList } from '../clients/demo/sdk.gen'
+import { Document } from '../clients/document/types.gen'
+import { CreateDocumentDialog } from './CreateDocumentDialog'
+import { EditDocumentDialog } from './EditDocumentDialog'
+import { ApproveDocumentDialog } from './ApproveDocumentDialog'
+import { getDocumentList } from '../clients/document/sdk.gen'
 
 interface ViewDialog {
     open: boolean
-    iouId: string
+    documentId: string
 }
 
 export const HomePage = () => {
-    const [createIouDialogOpen, setCreateIouDialogOpen] =
+    const [createDocumentDialogOpen, setCreateDocumentDialogOpen] =
         useState<boolean>(false)
-    const [repayIouDialogOpen, setRepayIouDialogOpen] = useState<ViewDialog>({
-        open: false,
-        iouId: ''
-    })
-    const [confirmIouPaymentDialogOpen, setConfirmIouDialogOpen] =
+    const [editDocumentDialogOpen, setEditDocumentDialogOpen] =
         useState<ViewDialog>({
             open: false,
-            iouId: ''
+            documentId: ''
+        })
+    const [approveDocumentDialogOpen, setApproveDocumentDialogOpen] =
+        useState<ViewDialog>({
+            open: false,
+            documentId: ''
         })
 
-    const { demo } = useServices()
-    const { api, withAuthorizationHeader, useStateStream } = demo
+    const { document } = useServices()
+    const { api, withAuthorizationHeader, useStateStream } = document
 
-    const [iouList, setIouList] = useState<HelloWorld[]>()
+    const [documentList, setDocumentList] = useState<Document[]>()
     const active = useStateStream(() =>
-        getHelloWorldList({
+        getDocumentList({
             client: api,
             ...withAuthorizationHeader()
-        }).then((it) => setIouList(it.data?.items))
+        }).then((it) => setDocumentList(it.data?.items))
     )
 
     useEffect(() => {
-        if (!createIouDialogOpen && !repayIouDialogOpen.open) {
-            getHelloWorldList({
+        if (!createDocumentDialogOpen && !editDocumentDialogOpen.open) {
+            getDocumentList({
                 client: api,
                 ...withAuthorizationHeader()
-            }).then((it) => setIouList(it.data?.items))
+            }).then((it) => setDocumentList(it.data?.items))
         }
     }, [
-        createIouDialogOpen,
-        repayIouDialogOpen.open,
-        confirmIouPaymentDialogOpen.open,
+        createDocumentDialogOpen,
+        editDocumentDialogOpen.open,
+        approveDocumentDialogOpen.open,
         active,
         api,
         withAuthorizationHeader
@@ -70,10 +71,10 @@ export const HomePage = () => {
         <Container maxWidth="xl" sx={{ py: 3 }}>
             <Box sx={{ mb: 4 }}>
                 <Typography variant="h4" sx={{ mb: 1, fontWeight: 600 }}>
-                    Overview
+                    Document Review Dashboard
                 </Typography>
                 <Typography variant="body1" color="text.secondary">
-                    Manage your Hello World protocols
+                    Manage document review and approval workflow
                 </Typography>
             </Box>
 
@@ -88,13 +89,13 @@ export const HomePage = () => {
                         variant="h3"
                         sx={{ color: 'primary.main', fontWeight: 700, mb: 1 }}
                     >
-                        {iouList?.length || 0}
+                        {documentList?.length || 0}
                     </Typography>
                     <Typography
                         variant="h6"
                         sx={{ color: 'text.secondary', fontWeight: 500 }}
                     >
-                        Total Protocols
+                        Total Documents
                     </Typography>
                 </Card>
 
@@ -103,14 +104,15 @@ export const HomePage = () => {
                         variant="h3"
                         sx={{ color: 'success.main', fontWeight: 700, mb: 1 }}
                     >
-                        {iouList?.filter((it) => it['@state'] === 'greeted')
-                            .length || 0}
+                        {documentList?.filter(
+                            (it) => it['@state'] === 'approved'
+                        ).length || 0}
                     </Typography>
                     <Typography
                         variant="h6"
                         sx={{ color: 'text.secondary', fontWeight: 500 }}
                     >
-                        Greeted Protocols
+                        Approved Documents
                     </Typography>
                 </Card>
 
@@ -119,14 +121,15 @@ export const HomePage = () => {
                         variant="h3"
                         sx={{ color: 'warning.main', fontWeight: 700, mb: 1 }}
                     >
-                        {iouList?.filter((it) => it['@state'] === 'greeting')
-                            .length || 0}
+                        {documentList?.filter(
+                            (it) => it['@state'] === 'drafted'
+                        ).length || 0}
                     </Typography>
                     <Typography
                         variant="h6"
                         sx={{ color: 'text.secondary', fontWeight: 500 }}
                     >
-                        Pending Greetings
+                        Pending Review
                     </Typography>
                 </Card>
             </Box>
@@ -143,10 +146,10 @@ export const HomePage = () => {
                         }}
                     >
                         <Typography variant="h6" sx={{ fontWeight: 600 }}>
-                            Hello World Management
+                            Document Management
                         </Typography>
                         <Button
-                            onClick={() => setCreateIouDialogOpen(true)}
+                            onClick={() => setCreateDocumentDialogOpen(true)}
                             variant="contained"
                             sx={{
                                 background:
@@ -157,7 +160,7 @@ export const HomePage = () => {
                                 }
                             }}
                         >
-                            Create Hello World
+                            Create Document
                         </Button>
                     </Box>
 
@@ -165,7 +168,8 @@ export const HomePage = () => {
                         <Table>
                             <TableHead>
                                 <TableRow>
-                                    <TableCell>Protocol ID</TableCell>
+                                    <TableCell>Document ID</TableCell>
+                                    <TableCell>Content Preview</TableCell>
                                     <TableCell align="center">Status</TableCell>
                                     <TableCell align="center">
                                         Actions
@@ -173,8 +177,8 @@ export const HomePage = () => {
                                 </TableRow>
                             </TableHead>
                             <TableBody>
-                                {iouList && iouList.length > 0 ? (
-                                    iouList.map((it, index) => (
+                                {documentList && documentList.length > 0 ? (
+                                    documentList.map((it, index) => (
                                         <TableRow
                                             key={index}
                                             hover
@@ -192,16 +196,30 @@ export const HomePage = () => {
                                                     {it['@id']}
                                                 </Typography>
                                             </TableCell>
+                                            <TableCell>
+                                                <Typography
+                                                    variant="body2"
+                                                    sx={{
+                                                        maxWidth: '200px',
+                                                        overflow: 'hidden',
+                                                        textOverflow:
+                                                            'ellipsis',
+                                                        whiteSpace: 'nowrap'
+                                                    }}
+                                                >
+                                                    {it.content}
+                                                </Typography>
+                                            </TableCell>
                                             <TableCell align="center">
                                                 <Chip
                                                     label={it['@state']}
                                                     size="small"
                                                     color={
                                                         it['@state'] ===
-                                                        'greeted'
+                                                        'approved'
                                                             ? 'success'
                                                             : it['@state'] ===
-                                                                'greeting'
+                                                                'drafted'
                                                               ? 'warning'
                                                               : 'default'
                                                     }
@@ -213,32 +231,66 @@ export const HomePage = () => {
                                                 />
                                             </TableCell>
                                             <TableCell align="center">
-                                                {it['@state'] === 'greeting' &&
-                                                    it['@actions']?.sayHello && (
-                                                        <Button
-                                                            size="small"
-                                                            variant="contained"
-                                                            onClick={() =>
-                                                                setRepayIouDialogOpen(
-                                                                    {
-                                                                        open: true,
-                                                                        iouId: it[
-                                                                            '@id'
-                                                                        ]
-                                                                    }
-                                                                )
-                                                            }
-                                                        >
-                                                            Say Hello
-                                                        </Button>
-                                                    )}
+                                                <Box
+                                                    sx={{
+                                                        display: 'flex',
+                                                        gap: 1,
+                                                        justifyContent: 'center'
+                                                    }}
+                                                >
+                                                    {it['@state'] ===
+                                                        'drafted' &&
+                                                        it['@actions']
+                                                            ?.edit && (
+                                                            <Button
+                                                                size="small"
+                                                                variant="outlined"
+                                                                onClick={() =>
+                                                                    setEditDocumentDialogOpen(
+                                                                        {
+                                                                            open: true,
+                                                                            documentId:
+                                                                                it[
+                                                                                    '@id'
+                                                                                ]
+                                                                        }
+                                                                    )
+                                                                }
+                                                            >
+                                                                Edit
+                                                            </Button>
+                                                        )}
+                                                    {it['@state'] ===
+                                                        'drafted' &&
+                                                        it['@actions']
+                                                            ?.approve && (
+                                                            <Button
+                                                                size="small"
+                                                                variant="contained"
+                                                                color="success"
+                                                                onClick={() =>
+                                                                    setApproveDocumentDialogOpen(
+                                                                        {
+                                                                            open: true,
+                                                                            documentId:
+                                                                                it[
+                                                                                    '@id'
+                                                                                ]
+                                                                        }
+                                                                    )
+                                                                }
+                                                            >
+                                                                Approve
+                                                            </Button>
+                                                        )}
+                                                </Box>
                                             </TableCell>
                                         </TableRow>
                                     ))
                                 ) : (
                                     <TableRow>
                                         <TableCell
-                                            colSpan={3}
+                                            colSpan={4}
                                             align="center"
                                             sx={{ py: 8 }}
                                         >
@@ -246,8 +298,8 @@ export const HomePage = () => {
                                                 variant="body1"
                                                 color="text.secondary"
                                             >
-                                                No Hello World protocols found. Create your first
-                                                protocol to get started.
+                                                No documents found. Create your
+                                                first document to get started.
                                             </Typography>
                                         </TableCell>
                                     </TableRow>
@@ -257,29 +309,29 @@ export const HomePage = () => {
                     </TableContainer>
                 </CardContent>
             </Card>
-            <CreateIouDialog
-                open={createIouDialogOpen}
+            <CreateDocumentDialog
+                open={createDocumentDialogOpen}
                 onClose={() => {
-                    setCreateIouDialogOpen(false)
+                    setCreateDocumentDialogOpen(false)
                 }}
             />
-            <RepayIouDialog
-                open={repayIouDialogOpen.open}
-                iouId={repayIouDialogOpen.iouId}
+            <EditDocumentDialog
+                open={editDocumentDialogOpen.open}
+                documentId={editDocumentDialogOpen.documentId}
                 onClose={() => {
-                    setRepayIouDialogOpen({
+                    setEditDocumentDialogOpen({
                         open: false,
-                        iouId: ''
+                        documentId: ''
                     })
                 }}
             />
-            <ConfirmIouPaymentDialog
-                open={confirmIouPaymentDialogOpen.open}
-                iouId={confirmIouPaymentDialogOpen.iouId}
+            <ApproveDocumentDialog
+                open={approveDocumentDialogOpen.open}
+                documentId={approveDocumentDialogOpen.documentId}
                 onClose={() => {
-                    setConfirmIouDialogOpen({
+                    setApproveDocumentDialogOpen({
                         open: false,
-                        iouId: ''
+                        documentId: ''
                     })
                 }}
             />
