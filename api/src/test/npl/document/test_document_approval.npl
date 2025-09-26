@@ -1,0 +1,13 @@
+package document
+
+@test
+function testDocumentApproval(test: Test) -> {
+    var editor: Party = partyOf(mapOf(Pair("preferred_username", setOf("editor"))));
+    var approver: Party = partyOf(mapOf(Pair("preferred_username", setOf("approver"))));
+    var document: Document = Document[editor, approver]("content");
+    test.assertEquals(Document.States.drafted, document.activeState().getOrFail());
+    document.edit[editor]("new content");
+    test.assertEquals(Document.States.drafted, document.activeState().getOrFail());
+    document.approve[approver]();
+    test.assertEquals(Document.States.approved, document.activeState().getOrFail());
+};
