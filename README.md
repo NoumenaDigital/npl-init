@@ -7,9 +7,38 @@ the [Developing on your own machine](https://documentation.noumenadigital.com/tr
 
 Alternatively, you can open the repository in GitHub Codespaces by going to the [npl-init GitHub repository](https://github.com/NoumenaDigital/npl-init), and clicking on `Use this template`, then select `Open in a Codespace`.
 
-If you're there already, see the [Starting in Codespaces](#running-the-npl-init-app) section to get started with running your first NPL application.
+If you're there already, see the [Running the npl-init app on NOUMENA Cloud](#running-the-npl-init-app-on-noumena-cloud) or the [Running the npl-init app in Codespaces](#running-the-npl-init-app-in-codespaces) sections to get started with running your first NPL application.
 
-## Running the npl-init app
+## Running the npl-init app on NOUMENA Cloud
+
+NOUMENA Cloud offers an environment to run NPL apps, including the NPL Engine, an IAM service, and frontend hosting. The next steps will guide you through the deployment of NPL on NOUMENA Cloud.
+
+Before continuing, make sure you have registered on [NOUMENA Cloud](https://portal.noumena.cloud/) and created an application in your tenant.
+
+For developers working in VS Code, Cursor, or GitHub Codespaces, direct deployment is supported.
+
+1.  In the VS Code sidebar, select the NOUMENA icon to open the NOUMENA Cloud panel
+
+2.  Click `Sign in to NOUMENA Cloud`, provide your NOUMENA Cloud credentials in the browser window, and select `Yes` when
+    prompted to `Grant Access to NOUMENA Cloud`
+
+3.  The NOUMENA Cloud panel of your VS Code editor should now display your NOUMENA Cloud tenants and applications. If
+    not, click the refresh icon
+
+4.  Hover or click on your target application, select `Deploy application`, then `NPL Backend` in the action menu
+
+    > If you are deploying NPL source code again to the same application, make sure to clear the existing package first
+    > or implement a [migration](../../runtime/tools/migrations/index.md) for the changes to take effect.
+    >
+    > To clear NPL sources from the app, select the `Clear deployed NPL application` next to your application in the
+    > NOUMENA Cloud panel.
+
+5.  Wait for deployment to complete (indicated by a success message in the VS Code notification area)
+
+Once deployment completes, you'll see the status change in the NOUMENA Cloud Portal. You can also navigate to the
+Services tab of the application and visit the Swagger UI to check that the NPL code has been deployed successfully.
+
+## Running the npl-init app in Codespaces
 
 In the next steps, you will be able to run a 
 
@@ -23,7 +52,7 @@ To start the NPL Engine, run:
 docker compose up --wait
 ```
 
-### Deploying NPL
+### Deploying NPL locally
 
 To deploy (or re-deploy) your NPL code to the runtime, run:
 
@@ -92,5 +121,6 @@ What interaction will you be modelling next?
 
 ## Next Steps
 
--   [Storing changes in a GitHub repository](https://documentation.noumenadigital.com/tracks/developing-codespaces/#storing-changes-in-a-github-repository)
 -   [Modelling a simple use-case in NPL](https://documentation.noumenadigital.com/howto/modelling-NPL/)
+-   [Storing changes in a GitHub repository](https://documentation.noumenadigital.com/tracks/developing-codespaces/#storing-changes-in-a-github-repository)
+-   [Creating app users on NOUMENA Cloud](https://documentation.noumenadigital.com/cloud/portal/create-users/)
