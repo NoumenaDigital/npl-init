@@ -126,24 +126,6 @@ export default function Shell() {
                         sx={{ display: 'flex', alignItems: 'center', gap: 2 }}
                     ></Box>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-                        <Typography
-                            variant="body2"
-                            sx={{ color: theme.palette.text.secondary }}
-                        >
-                            Community
-                        </Typography>
-                        <Typography
-                            variant="body2"
-                            sx={{ color: theme.palette.text.secondary }}
-                        >
-                            Documentation
-                        </Typography>
-                        <Typography
-                            variant="body2"
-                            sx={{ color: theme.palette.text.secondary }}
-                        >
-                            Support
-                        </Typography>
                         <Box
                             onClick={handlePortraitClick}
                             sx={{

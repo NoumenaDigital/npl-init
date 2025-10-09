@@ -19,6 +19,7 @@ import { Document } from '../clients/document/types.gen'
 import { CreateDocumentDialog } from './CreateDocumentDialog'
 import { EditDocumentDialog } from './EditDocumentDialog'
 import { ApproveDocumentDialog } from './ApproveDocumentDialog'
+import { RequestReviewDocumentDialog } from './RequestReviewDocumentDialog'
 import { getDocumentList } from '../clients/document/sdk.gen'
 
 interface ViewDialog {
@@ -35,6 +36,11 @@ export const HomePage = () => {
             documentId: ''
         })
     const [approveDocumentDialogOpen, setApproveDocumentDialogOpen] =
+        useState<ViewDialog>({
+            open: false,
+            documentId: ''
+        })
+    const [requestReviewDialogOpen, setRequestReviewDialogOpen] =
         useState<ViewDialog>({
             open: false,
             documentId: ''
@@ -62,6 +68,7 @@ export const HomePage = () => {
         createDocumentDialogOpen,
         editDocumentDialogOpen.open,
         approveDocumentDialogOpen.open,
+        requestReviewDialogOpen.open,
         active,
         api,
         withAuthorizationHeader
@@ -122,14 +129,14 @@ export const HomePage = () => {
                         sx={{ color: 'warning.main', fontWeight: 700, mb: 1 }}
                     >
                         {documentList?.filter(
-                            (it) => it['@state'] === 'drafted'
+                            (it) => it['@state'] === 'inReview'
                         ).length || 0}
                     </Typography>
                     <Typography
                         variant="h6"
                         sx={{ color: 'text.secondary', fontWeight: 500 }}
                     >
-                        Pending Review
+                        In Review
                     </Typography>
                 </Card>
             </Box>
@@ -219,7 +226,7 @@ export const HomePage = () => {
                                                         'approved'
                                                             ? 'success'
                                                             : it['@state'] ===
-                                                                'drafted'
+                                                                'inReview'
                                                               ? 'warning'
                                                               : 'default'
                                                     }
@@ -239,7 +246,7 @@ export const HomePage = () => {
                                                     }}
                                                 >
                                                     {it['@state'] ===
-                                                        'drafted' &&
+                                                        'created' &&
                                                         it['@actions']
                                                             ?.edit && (
                                                             <Button
@@ -261,7 +268,30 @@ export const HomePage = () => {
                                                             </Button>
                                                         )}
                                                     {it['@state'] ===
-                                                        'drafted' &&
+                                                        'created' &&
+                                                        it['@actions']
+                                                            ?.requestReview && (
+                                                            <Button
+                                                                size="small"
+                                                                variant="contained"
+                                                                color="primary"
+                                                                onClick={() =>
+                                                                    setRequestReviewDialogOpen(
+                                                                        {
+                                                                            open: true,
+                                                                            documentId:
+                                                                                it[
+                                                                                    '@id'
+                                                                                ]
+                                                                        }
+                                                                    )
+                                                                }
+                                                            >
+                                                                Request Review
+                                                            </Button>
+                                                        )}
+                                                    {it['@state'] ===
+                                                        'inReview' &&
                                                         it['@actions']
                                                             ?.approve && (
                                                             <Button
@@ -330,6 +360,16 @@ export const HomePage = () => {
                 documentId={approveDocumentDialogOpen.documentId}
                 onClose={() => {
                     setApproveDocumentDialogOpen({
+                        open: false,
+                        documentId: ''
+                    })
+                }}
+            />
+            <RequestReviewDocumentDialog
+                open={requestReviewDialogOpen.open}
+                documentId={requestReviewDialogOpen.documentId}
+                onClose={() => {
+                    setRequestReviewDialogOpen({
                         open: false,
                         documentId: ''
                     })

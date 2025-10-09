@@ -9,7 +9,7 @@
         "format": "prettier . --write",
         "format:ci": "prettier . --check",
         "preview": "vite preview",
-        "generate-clients": "bash generate-all-clients.sh"
+        "generate-clients": "npx @hey-api/openapi-ts -i openapi/*-openapi.* -o ./src/clients/document"
     },
     "dependencies": {
         "@emotion/react": "^11.14.0",

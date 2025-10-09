@@ -4,17 +4,22 @@ package document;
 protocol[editor, approver] Document(
     var content: Text
 ) {
-
-    initial state drafted;
-    final state approved;
+    initial state created
+    state inReview
+    final state approved
 
     @api
-    permission[editor] edit(newContent: Text) | drafted {
+    permission[editor] edit(newContent: Text) | created {
         content = newContent;
-    };
+    }
 
     @api
-    permission[approver] approve() | drafted {
-        become approved;
-    };
-};
+    permission[editor] requestReview() {
+        become inReview
+    }
+
+    @api
+    permission[approver] approve() | inReview {
+        become approved
+    }
+}

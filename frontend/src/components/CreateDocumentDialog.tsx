@@ -38,7 +38,7 @@ export const CreateDocumentDialog: React.FC<{
                     },
                     approver: {
                         claims: {
-                            email: [approverEmail || user.email]
+                            email: [approverEmail]
                         }
                     }
                 }
