@@ -1,0 +1,14 @@
+package document;
+
+function getParty(user: Text) returns Party ->
+    partyOf(mapOf(Pair("email", setOf(user + "@example.com"))));
+
+@test
+function initDocument(test: Test) -> {
+    var alice: Party = getParty("alice");
+    var bob: Party = getParty("bob");
+    var document = Document[alice, bob]("Initial content");
+    test.assertEquals(Document.States.created, document.activeState().getOrFail());
+    document.edit[alice]("Updated document");
+    test.assertEquals("Updated document", document.content);
+};

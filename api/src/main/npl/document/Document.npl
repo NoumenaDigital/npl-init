@@ -1,0 +1,25 @@
+package document;
+
+@api
+protocol[editor, approver] Document(
+    var content: Text
+) {
+    initial state created
+    state inReview
+    final state approved
+
+    @api
+    permission[editor] edit(newContent: Text) | created {
+        content = newContent;
+    }
+
+    @api
+    permission[editor] requestReview() | created {
+        become inReview
+    }
+    
+    @api
+    permission[approver] approve() | inReview {
+        become approved
+    }
+}
