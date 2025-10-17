@@ -76,7 +76,7 @@ export default function Shell() {
     const { name } = useMe()
     const { loginMode } = useRuntimeConfiguration()
     const isKeycloak = loginMode === 'KEYCLOAK'
-    const isDirectOidc = loginMode === 'CUSTOM_OIDC' || loginMode === 'DEV_MODE'
+    const isDirectOidc = loginMode === 'OIDC' || loginMode === 'DEV_MODE'
     const { keycloak } = isKeycloak ? useKeycloak() : { keycloak: null }
     const { logout: oidcLogout } = isDirectOidc
         ? useDirectOidc()

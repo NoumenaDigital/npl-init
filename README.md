@@ -40,6 +40,25 @@ For developers working in VS Code, Cursor, or GitHub Codespaces, direct deployme
 Once deployment completes, the NOUMENA Cloud Portal updates to show the new "Last deployment" date for your NPL code. You can also navigate to the
 Services tab of the application and visit the Swagger UI to check that the NPL code has been deployed successfully.
 
+6. To deploy the frontend, configure the integration in the `.env` file:
+
+    ```
+    VITE_NC_APPLICATION_NAME=your_noumena_cloud_application_name
+    VITE_NC_TENANT_NAME=your_noumena_cloud_tenant_name
+    VITE_LOGIN_MODE=KEYCLOAK
+    VITE_DEPLOYMENT_TARGET=NOUMENA_CLOUD
+    ```
+
+    > For more details see the [front end's CONFIG](./frontend/CONFIG.md)
+
+7. Build the frontend by running:
+
+    ```
+    cd frontend && npm i && npm run build
+    ```
+
+8. Hover or click on your target application, select `Deploy application`, then `Static Frontend` in the action menu
+
 ## Running the npl-init app in Codespaces
 
 In the next steps, you will be able to run an NPL Engine within the virtual environment provided by the Codespace, and deploy NPL to it.
@@ -64,6 +83,38 @@ npl deploy --clear --sourceDir api/src/main
 
 The `--clear` flag makes sure that previous deployments are automatically removed. If you want to upgrade a running
 application, implement a [migration](https://documentation.noumenadigital.com/runtime/tools/migrations/).
+
+### Running the frontend locally
+
+Check the configuration in the `.env` file to make sure that it points to the local engine running in DEV_MODE:
+
+```
+VITE_LOGIN_MODE=DEV_MODE
+VITE_DEPLOYMENT_TARGET=LOCAL
+```
+In this scenario, the `VITE_NC_APPLICATION_NAME` and `VITE_NC_TENANT_NAME` variables are not needed.
+
+> For more details see the [front end's CONFIG](./frontend/CONFIG.md)
+
+Navigate to your frontend directory:
+
+```bash
+cd frontend
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+The frontend will typically start on `http://localhost:5173` (or another port if 5173 is in use).
 
 ## Using the NPL API
 

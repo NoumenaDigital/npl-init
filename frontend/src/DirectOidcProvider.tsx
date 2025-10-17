@@ -50,9 +50,20 @@ export const DirectOidcProvider: React.FC<DirectOidcProviderProps> = ({
 
         if (storedToken && storedUser) {
             try {
-                const userData = JSON.parse(storedUser)
-                setUser(userData)
-                setIsAuthenticated(true)
+                // Decode token to check expiration
+                const decoded = jwtDecode(storedToken) as any
+                const currentTime = Date.now() / 1000
+
+                // Check if token is expired
+                if (decoded.exp && decoded.exp > currentTime) {
+                    const userData = JSON.parse(storedUser)
+                    setUser(userData)
+                    setIsAuthenticated(true)
+                } else {
+                    // Token expired, clear storage
+                    localStorage.removeItem('oidc-access-token')
+                    localStorage.removeItem('oidc-user')
+                }
             } catch (error) {
                 localStorage.removeItem('oidc-access-token')
                 localStorage.removeItem('oidc-user')

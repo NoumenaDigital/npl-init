@@ -40,7 +40,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
         initialized = false
     }
 
-    // DirectOidc hooks (only used in CUSTOM_OIDC mode)
+    // DirectOidc hooks (only used in OIDC mode)
     let directOidcAuth
     try {
         directOidcAuth = useDirectOidc()
@@ -54,7 +54,7 @@ export const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
             if (initialized && keycloak?.tokenParsed) {
                 internalizeUser(keycloak.tokenParsed).then((it) => setUser(it))
             }
-        } else if (loginMode === 'CUSTOM_OIDC' || loginMode === 'DEV_MODE') {
+        } else if (loginMode === 'OIDC' || loginMode === 'DEV_MODE') {
             if (directOidcAuth?.isAuthenticated && directOidcAuth.user) {
                 setUser(directOidcAuth.user)
             }

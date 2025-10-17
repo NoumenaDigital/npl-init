@@ -14,7 +14,7 @@ protocol[editor, approver] Document(
     }
 
     @api
-    permission[editor] requestReview() {
+    permission[editor] requestReview() | created {
         become inReview
     }
 
