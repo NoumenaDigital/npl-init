@@ -1,0 +1,3 @@
+structure:
+  sourceDir: api/src/main
+  migration: api/src/main/migration.yml
