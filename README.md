@@ -59,7 +59,7 @@ docker compose up --wait
 To deploy (or re-deploy) your NPL code to the runtime, run:
 
 ```shell
-npl deploy --clear --sourceDir api/src/main
+npl deploy --clear
 ```
 
 The `--clear` flag makes sure that previous deployments are automatically removed. If you want to upgrade a running
