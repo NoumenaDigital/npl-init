@@ -1,5 +1,6 @@
 structure: # Configuration for project structure
   sourceDir: api/src/main
+  outputDir: frontend # Directory for generated files (e.g., OpenAPI specs, PUML diagrams)
   migration: api/src/main/migration.yml
 
 cloud: # Configuration for deploying to NOUMENA Cloud
