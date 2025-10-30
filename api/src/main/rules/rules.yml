@@ -1,5 +1,5 @@
 demo.HelloWorld:
-  innovator:
+  greeter:
     extract:
       claims:
         - preferred_username
