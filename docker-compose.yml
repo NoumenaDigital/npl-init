@@ -16,3 +16,9 @@ services:
     environment:
       ENGINE_DB_PASSWORD: postgres
       ENGINE_DEV_MODE: true
+    healthcheck:
+      test: ["CMD", "/busybox/sh", "-c", "wget -qO- http://localhost:12000/actuator/health 2>/dev/null | grep -q '\"UP\"'"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
