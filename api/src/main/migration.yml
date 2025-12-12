@@ -7,3 +7,5 @@ changesets:
           sources:
           - npl
           rules: rules/rules.yml
+          contrib-libraries:
+            - contrib/npl-migration-test.zip

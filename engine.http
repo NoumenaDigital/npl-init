@@ -1,0 +1,22 @@
+POST http://localhost:11000/token
+Content-Type: application/x-www-form-urlencoded
+
+grant_type=password&username=alice&password=password123
+> {% client.global.set("token", response.body['access_token']); %}
+
+
+### Deploy NPL sources and migrations
+PUT {{host}}/management/application
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=MyBoundary
+
+--MyBoundary
+Content-Disposition: form-data; name="main"; filename="main.zip"
+Content-Type: application/zip
+
+< /Users/mozzerin/Desktop/work/npl-init/api/src/main.zip
+--MyBoundary--
+
+
+
+#< /Users/mozzerin/Desktop/work/platform/e2e-tests/src/test/resources/migration-zip-structures/nested-main-structure.zip

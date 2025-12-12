@@ -7,7 +7,7 @@ services:
       POSTGRES_PASSWORD: postgres
 
   engine:
-    image: ghcr.io/noumenadigital/images/engine:latest
+    image: ghcr.io/noumenadigital/packages/engine:local
     ports:
       - "11000:11000"
       - "12000:12000"

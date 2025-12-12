@@ -9,5 +9,5 @@ cloud: # Configuration for deploying to NOUMENA Cloud
 local: # Configuration for deploying to a local NOUMENA Engine instance
   managementUrl: http://localhost:12400
   authUrl: http://localhost:11000
-  username: alice
-  password: password123
+  username: user1
+  password: password1

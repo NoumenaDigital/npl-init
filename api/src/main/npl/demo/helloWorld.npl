@@ -1,5 +1,7 @@
 package demo;
 
+use mynpl.MyFoo2;
+
 @api
 protocol[greeter] HelloWorld() {
 
@@ -8,8 +10,9 @@ protocol[greeter] HelloWorld() {
 
     @api
     permission[greeter] sayHello() returns Text | greeting {
+        var nplContribMyFoo2 = MyFoo2(first = 1, second = "text");
         become greeted;
-        return "Hello " + getUsername(greeter) + "!";
+        return nplContribMyFoo2.toText();
     };
 };
 
