@@ -7,7 +7,7 @@ Starter options:
 - If you want to develop and deploy NPL locally, follow the steps provided in
 the [Developing on your own machine](https://documentation.noumenadigital.com/tracks/developing-NPL-local/) track. 
 
-- Alternatively, you can open the repository in GitHub Codespaces by going to the [npl-init GitHub repository](https://github.com/NoumenaDigital/npl-init), and clicking on `Use this template`, then select `Open in a Codespace`.
+- Alternatively, you can open the repository in GitHub Codespaces by going to the [npl-init GitHub repository](https://github.com/NoumenaDigital/npl-init), and clicking on `Use this template`, then select `Open in a Codespace`. Note that this will copy the code of the `master` branch of the repository.
 
 - **If you've already opened the `npl-init` repository in a Codespace**, see the [Running the npl-init app on NOUMENA Cloud](#running-the-npl-init-app-on-noumena-cloud) or the [Running the npl-init app in Codespaces](#running-the-npl-init-app-in-codespaces) sections to get started with running your first NPL application.
 
@@ -30,7 +30,7 @@ For developers working in VS Code, Cursor, or GitHub Codespaces, direct deployme
 4.  Hover or click on your target application, select `Deploy application`, then `NPL Backend` in the action menu
 
     > If you are deploying NPL source code again to the same application, make sure to clear the existing package first
-    > or implement a [migration](../../runtime/tools/migrations/index.md) for the changes to take effect.
+    > or implement a [migration](https://documentation.noumenadigital.com/runtime/tools/migrations/) for the changes to take effect.
     >
     > To clear NPL sources from the application, select the `Clear deployed NPL application` next to your application in the
     > NOUMENA Cloud panel.
@@ -40,7 +40,9 @@ For developers working in VS Code, Cursor, or GitHub Codespaces, direct deployme
 Once deployment completes, the NOUMENA Cloud Portal updates to show the new "Last deployment" date for your NPL code. You can also navigate to the
 Services tab of the application and visit the Swagger UI to check that the NPL code has been deployed successfully.
 
-6. To deploy the frontend, configure the integration in the `.env` file:
+To build and deploy the frontend to NOUMENA Cloud:
+
+6. Configure the frontend integration in the `.env` file:
 
     ```
     VITE_NC_APPLICATION_NAME=your_noumena_cloud_application_name
@@ -51,13 +53,24 @@ Services tab of the application and visit the Swagger UI to check that the NPL c
 
     > For more details see the [front end's CONFIG](./frontend/CONFIG.md)
 
-7. Build the frontend by running:
+7. Generate the frontend client from the NPL code:
 
     ```
-    cd frontend && npm i && npm run build
+    npl openapi
+    cd frontend
+    npm install -D @hey-api/openapi-ts
+    npx @hey-api/openapi-ts -i openapi/*-openapi.* -o ./src/clients/document
     ```
 
-8. Hover or click on your target application, select `Deploy application`, then `Static Frontend` in the action menu
+   > For more details see the [Connecting a frontend to the NPL API](https://documentation.noumenadigital.com/tracks/generate-client/#generate-an-openapi-specification) documentation
+
+8. Build the frontend by running:
+
+    ```
+    npm i && npm run build
+    ```
+
+9. Hover or click on your target application, select `Deploy application`, then `Static Frontend` in the action menu
 
 ## Running the npl-init app in Codespaces
 
@@ -96,13 +109,26 @@ In this scenario, the `VITE_NC_APPLICATION_NAME` and `VITE_NC_TENANT_NAME` varia
 
 > For more details see the [front end's CONFIG](./frontend/CONFIG.md)
 
+Generate the Open API specification of the NPL API:
+
+```bash
+npl openapi
+```
+
 Navigate to your frontend directory:
 
 ```bash
 cd frontend
 ```
 
-Install dependencies:
+Generate the frontend client for the NPL API, from the Open API specification:
+
+```bash
+npm install -D @hey-api/openapi-ts
+npx @hey-api/openapi-ts -i openapi/*-openapi.* -o ./src/clients/document
+```
+
+Install frontend dependencies:
 
 ```bash
 npm install
