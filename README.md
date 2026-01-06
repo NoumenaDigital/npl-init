@@ -7,7 +7,7 @@ Starter options:
 - If you want to develop and deploy NPL locally, follow the steps provided in
 the [Developing on your own machine](https://documentation.noumenadigital.com/tracks/developing-NPL-local/) track. 
 
-- Alternatively, you can open the repository in GitHub Codespaces by going to the [npl-init GitHub repository](https://github.com/NoumenaDigital/npl-init), and clicking on `Use this template`, then select `Open in a Codespace`.
+- Alternatively, you can open the repository in GitHub Codespaces by going to the [npl-init GitHub repository](https://github.com/NoumenaDigital/npl-init), and clicking on `Use this template`, then select `Open in a Codespace`. Note that this will copy the code of the `master` branch of the repository.
 
 - **If you've already opened the `npl-init` repository in a Codespace**, see the [Running the npl-init app on NOUMENA Cloud](#running-the-npl-init-app-on-noumena-cloud) or the [Running the npl-init app in Codespaces](#running-the-npl-init-app-in-codespaces) sections to get started with running your first NPL application.
 
