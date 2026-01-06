@@ -109,13 +109,26 @@ In this scenario, the `VITE_NC_APPLICATION_NAME` and `VITE_NC_TENANT_NAME` varia
 
 > For more details see the [front end's CONFIG](./frontend/CONFIG.md)
 
+Generate the Open API specification of the NPL API:
+
+```bash
+npl openapi
+```
+
 Navigate to your frontend directory:
 
 ```bash
 cd frontend
 ```
 
-Install dependencies:
+Generate the frontend client for the NPL API, from the Open API specification:
+
+```bash
+npm install -D @hey-api/openapi-ts
+npx @hey-api/openapi-ts -i openapi/*-openapi.* -o ./src/clients/document
+```
+
+Install frontend dependencies:
 
 ```bash
 npm install
