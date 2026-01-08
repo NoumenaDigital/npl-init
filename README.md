@@ -77,6 +77,8 @@ Fetch a token from the embedded OIDC server with
 export ACCESS_TOKEN=$(curl -s -X POST http://localhost:11000/token -d "grant_type=password" -d "username=alice" -d "password=password123" | jq -r .access_token)
 ```
 
+> For a complete list of available users, passwords, and claims, see the [Users and claims documentation](https://documentation.noumenadigital.com/runtime/deployment/configuration/Engine-Dev-Mode/#embedded-oidc-and-seeded-users) in NOUMENA's official documentation.
+
 and interact with the engine to create a hello world protocol instance:
 
 ```shell
