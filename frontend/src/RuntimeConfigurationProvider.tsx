@@ -72,14 +72,42 @@ export const RuntimeConfigurationProvider: React.FC<
 > = ({ children }) => {
     const [runtimeConfig, setRuntimeConfig] =
         useState<RuntimeConfiguration | null>(null)
+    const [error, setError] = useState<string | null>(null)
 
     useEffect(() => {
         const loadConfig = async () => {
-            const loadedConfig = loadRuntimeConfiguration()
-            setRuntimeConfig(loadedConfig)
+            try {
+                const loadedConfig = loadRuntimeConfiguration()
+                setRuntimeConfig(loadedConfig)
+            } catch (err) {
+                const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred'
+                console.error('Configuration error:', errorMessage)
+                setError(errorMessage)
+            }
         }
         loadConfig()
     }, [])
+
+    if (error) {
+        return (
+            <div style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                height: '100vh',
+                padding: '20px',
+                backgroundColor: '#fee',
+                color: '#c00',
+                fontFamily: 'monospace',
+                fontSize: '16px'
+            }}>
+                <div>
+                    <h2>Configuration Error</h2>
+                    <p>{error}</p>
+                </div>
+            </div>
+        )
+    }
 
     return (
         <RuntimeConfigurationContext.Provider value={runtimeConfig}>

@@ -6,7 +6,7 @@ import { Box, CircularProgress } from '@mui/material'
 import { KeycloakTokenParsed } from 'keycloak-js'
 
 export interface User {
-    name: string
+    name?: string
     email: string
 }
 
@@ -84,14 +84,18 @@ const Loading = () => {
 const internalizeUser = async (
     tokenParsed: KeycloakTokenParsed
 ): Promise<User> => {
-    if (tokenParsed.name && tokenParsed.email) {
+    if (tokenParsed.email) {
         return {
-            name: tokenParsed.name as string,
+            name: (
+                tokenParsed.name ||
+                tokenParsed.preferred_username ||
+                (tokenParsed.firstName + " " + tokenParsed.lastName)
+            ) as string,
             email: tokenParsed.email as string
         }
     } else {
         throw Error(
-            `unable to parse user from ${(tokenParsed.name, tokenParsed.email, tokenParsed.company)}`
+            `unable to parse user from ${(tokenParsed.email)}`
         )
     }
 }

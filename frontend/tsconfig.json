@@ -5,6 +5,7 @@
         "lib": ["ESNext", "DOM", "DOM.Iterable"],
         "module": "ESNext",
         "skipLibCheck": true,
+        "types": ["react", "react-dom", "node", "event-source-polyfill"],
 
         /* Bundler mode */
         "moduleResolution": "bundler",
